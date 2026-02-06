@@ -35,7 +35,7 @@ export function LinkCodeDisplay({
   };
 
   // Format code with spaces: 12345678 -> 1234 5678
-  const formattedCode = code.slice(0, 4) + ' ' + code.slice(4);
+  const formattedCode = [code.slice(0, 4), code.slice(4)].filter(Boolean);
 
   return (
     <Card className={cn('overflow-hidden', className)}>
@@ -50,14 +50,21 @@ export function LinkCodeDisplay({
               key={code}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="font-mono text-4xl font-bold tracking-[0.2em] text-foreground md:text-5xl"
+              className="flex flex-wrap items-center justify-center gap-2 font-mono text-3xl font-bold text-foreground sm:gap-3 sm:text-4xl md:text-5xl"
             >
-              {formattedCode}
+              {formattedCode.map(part => (
+                <span
+                  key={part}
+                  className="inline-flex min-w-[4.5ch] justify-center rounded-lg bg-muted px-2 py-1 tracking-[0.12em] sm:px-3"
+                >
+                  {part}
+                </span>
+              ))}
             </motion.div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <Button
               variant="outline"
               size="sm"
